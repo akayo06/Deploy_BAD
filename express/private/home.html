@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+    />
+    <link rel="stylesheet" href="/app/home.css" />
+  </head>
+  <body>
+    <ion-app>
+      <ion-tabs>
+        <ion-tab tab="home">
+          <ion-nav id="home-nav"></ion-nav>
+          <div id="home-page">
+            <ion-header>
+              <ion-toolbar color="light">
+                <ion-grid id="toolbarGrid">
+                  <ion-row class="ion-justify-content-between">
+                    <ion-img
+                      id="McFitnessLogo"
+                      size="10"
+                      src="/app/img/McFitness.png"
+                    ></ion-img>
+                    <ion-img
+                      id="avatarCircle"
+                      size="3"
+                      src="/app/img/male.jpg"
+                    ></ion-img>
+                  </ion-row>
+                </ion-grid>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+              <ion-fab
+                slot="fixed"
+                vertical="top"
+                horizontal="end"
+                [edge]="true"
+              >
+                <ion-fab-button>
+                  <ion-icon name="chevron-down-circle"></ion-icon>
+                </ion-fab-button>
+                <ion-fab-list side="bottom">
+                  <ion-fab-button id="logout">
+                    <ion-icon name="exit-outline" id="logout"></ion-icon>
+                  </ion-fab-button>
+                </ion-fab-list>
+              </ion-fab>
+
+              <ion-card>
+                <img alt="Silhouette of mountains" src="/app/img/home1.jpg" />
+                <ion-card-header>
+                  <ion-card-title
+                    >Join and Experience the McFitness</ion-card-title
+                  >
+                  <ion-card-subtitle>Membership</ion-card-subtitle>
+                </ion-card-header>
+
+                <ion-card-content> McFitness is now working! </ion-card-content>
+              </ion-card>
+              <ion-card>
+                <img alt="Silhouette of mountains" src="/app/img/home2.jpg" />
+                <ion-card-header>
+                  <ion-card-title>Practice makes you perfect!</ion-card-title>
+                  <ion-card-subtitle>Exercise</ion-card-subtitle>
+                </ion-card-header>
+
+                <ion-card-content>
+                  Our yoga course will be announced soon.</ion-card-content
+                >
+              </ion-card>
+              <ion-card>
+                <img alt="Silhouette of mountains" src="/app/img/home3.jpg" />
+                <ion-card-header>
+                  <ion-card-title>Eat clean, green, and lean.</ion-card-title>
+                  <ion-card-subtitle>Diet</ion-card-subtitle>
+                </ion-card-header>
+
+                <ion-card-content>
+                  Use scan food to record your diet!</ion-card-content
+                >
+              </ion-card>
+            </ion-content>
+          </div>
+        </ion-tab>
+        <ion-tab tab="scan">
+          <ion-nav id="scan-nav"></ion-nav>
+          <div id="scan-page">
+            <ion-header>
+              <ion-toolbar color="light">
+                <ion-grid id="toolbarGrid">
+                  <ion-row class="ion-justify-content-between">
+                    <ion-img
+                      id="McFitnessLogo"
+                      size="10"
+                      src="/app/img/McFitness.png"
+                    ></ion-img>
+                    <ion-img
+                      id="avatarCircle"
+                      size="3"
+                      src="/app/img/male.jpg"
+                    ></ion-img>
+                  </ion-row>
+                </ion-grid>
+              </ion-toolbar>
+              <ion-progress-bar
+                id="picProgressBar"
+                hidden
+                type="indeterminate"
+              ></ion-progress-bar>
+            </ion-header>
+            <ion-content [fullscreen]="true" class="ion-padding">
+              <h3>
+                Please input below data and scan you meal set to record your
+                diet.
+              </h3>
+              <form
+                onsubmit="submitFoodPic(event)"
+                id="foodPicForm"
+                method="POST"
+                action="/food-pic"
+                enctype="multipart/form-data"
+              >
+                <ion-list>
+                  <ion-accordion-group id="mealDateTimeAccordion">
+                    <ion-accordion value="dateTime">
+                      <ion-item slot="header" id="dateButton">
+                        <ion-label>Meal Date</ion-label>
+                        <ion-label
+                          id="selectedMealDate"
+                          class="ion-text-end"
+                        ></ion-label>
+                        <ion-note slot="end"></ion-note>
+                      </ion-item>
+                      <ion-datetime
+                        name="mealDate"
+                        id="mealDate"
+                        slot="content"
+                        displayFormat="YYYY-MM-DDTHH:mm:08TZD"
+                        size="cover"
+                        presentation="date"
+                      ></ion-datetime>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-list>
+
+                <ion-list>
+                  <ion-accordion-group id="mealTimeAccordion">
+                    <ion-accordion value="mealTime">
+                      <ion-item slot="header">
+                        <ion-label>Meal Time</ion-label>
+                        <ion-label
+                          id="selectedMealTime"
+                          class="ion-text-end"
+                        ></ion-label>
+                        <ion-note slot="end"></ion-note>
+                      </ion-item>
+                      <ion-list slot="content">
+                        <ion-radio-group
+                          id="selectMealTime"
+                          name="mealTime"
+                          value=""
+                        >
+                          <ion-item class="mealTimeSlot">
+                            <ion-radio
+                              class="mealTimeOption"
+                              checked="false"
+                              value="Breakfast"
+                            >
+                              <ion-label> Breakfast </ion-label>
+                            </ion-radio>
+                          </ion-item>
+                          <ion-item class="mealTimeSlot">
+                            <ion-radio
+                              class="mealTimeOption"
+                              checked="false"
+                              value="Lunch"
+                            >
+                              <ion-label> Lunch </ion-label>
+                            </ion-radio>
+                          </ion-item>
+                          <ion-item class="mealTimeSlot">
+                            <ion-radio
+                              class="mealTimeOption"
+                              checked="false"
+                              value="Dinner"
+                            >
+                              <ion-label> Dinner </ion-label>
+                            </ion-radio>
+                          </ion-item>
+                        </ion-radio-group>
+                      </ion-list>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </ion-list>
+                <div class="ion-text-center">
+                  <input hidden id="picInput" type="file" name="image" />
+
+                  <ion-button onclick="picInput.click()">
+                    <ion-icon slot="icon-only" name="camera"></ion-icon>
+                  </ion-button>
+                </div>
+                <ion-button hidden id="submitPhoto" type="submit"
+                  >Submit</ion-button
+                >
+                <div id="myProgress" hidden="true">
+                  <div id="myBar">10%</div>
+                </div>
+
+                <img id="result-poc" alt="result pic" src="" hidden="true" />
+                <ion-list class="food-items"></ion-list>
+                <div id="calBtnPlace" class="ion-text-center">
+                  <ion-button
+                    id="calculateCalories"
+                    class="confirm-button hidden"
+                    color="warning"
+                    >Calculate Calories</ion-button
+                  >
+                </div>
+                <div class="total_calculated_result"></div>
+                <template>
+                  <ion-grid id="calculatedNutritionValue">
+                    <h2 class="ion-text-center" id="calculatedResultTitle">
+                      Result
+                    </h2>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Energy</ion-col>
+                      <ion-col class="ion-text-end" id="energy"></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Protein</ion-col>
+                      <ion-col class="ion-text-end" id="protein"></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Total Fat</ion-col>
+                      <ion-col class="ion-text-end" id="total_fat"></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Saturated Fat</ion-col>
+                      <ion-col
+                        class="ion-text-end"
+                        id="saturated_fat"
+                      ></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Trans Fat</ion-col>
+                      <ion-col class="ion-text-end" id="trans_fat"></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Carbohydrates</ion-col>
+                      <ion-col
+                        class="ion-text-end"
+                        id="carbohydrates"
+                      ></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Sugar</ion-col>
+                      <ion-col class="ion-text-end" id="sugar"></ion-col>
+                    </ion-row>
+                    <ion-row class="nutritionTable">
+                      <ion-col class="ion-text-start">Sodium</ion-col>
+                      <ion-col class="ion-text-end" id="sodium"></ion-col>
+                    </ion-row>
+                    <div class="ion-text-center">
+                      <ion-button id="confirm-to-insert" color="warning"
+                        >Confirm</ion-button
+                      >
+                    </div>
+                  </ion-grid>
+                </template>
+                <ion-list class="calories-result"></ion-list>
+              </form>
+
+              <!-- <ion-alert
+                  trigger="submitPhoto"
+                  header="Alert"
+                  subHeader="Important message"
+                  message="Please select photo!"
+                  [buttons]="alertButtons"
+                ></ion-alert> -->
+            </ion-content>
+          </div>
+        </ion-tab>
+        <ion-tab tab="health">
+          <ion-nav id="health-nav"></ion-nav>
+          <div id="health-page">
+            <ion-header>
+              <ion-toolbar color="light">
+                <ion-grid id="toolbarGrid">
+                  <ion-row class="ion-justify-content-between">
+                    <ion-img
+                      id="McFitnessLogo"
+                      size="10"
+                      src="/app/img/McFitness.png"
+                    ></ion-img>
+                    <ion-img
+                      id="avatarCircle"
+                      size="3"
+                      src="/app/img/male.jpg"
+                    ></ion-img>
+                  </ion-row>
+                </ion-grid>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <div class="health-content">Monitor your weight</div>
+              <div>
+                <canvas id="weightMyChart"></canvas>
+              </div>
+              <ion-accordion-group id="weightDateTimeAccordion">
+                <ion-accordion value="weightDate">
+                  <ion-item slot="header" id="dateButton">
+                    <ion-label>Weight Date</ion-label>
+                    <ion-label
+                      id="selectedWeightDate"
+                      class="ion-text-end"
+                    ></ion-label>
+                    <ion-note slot="end"></ion-note>
+                  </ion-item>
+                  <ion-datetime
+                    name="weightDate"
+                    id="weightDate"
+                    slot="content"
+                    displayFormat="MMMM YY"
+                    size="cover"
+                    presentation="date"
+                  ></ion-datetime>
+                </ion-accordion>
+              </ion-accordion-group>
+              <ion-list>
+                <ion-item>
+                  <ion-label class="ion-text-start"></ion-label>
+                  <ion-input
+                    label="Your Weight (in kg) Today."
+                    minlength="2"
+                    maxlength="3"
+                    class="ion-text-end"
+                    id="weightAddValue"
+                  >
+                  </ion-input>
+                  <ion-icon name="add-circle-outline" id="addWeight"></ion-icon>
+                </ion-item>
+                <ion-item><ion-label></ion-label></ion-item>
+                <ion-item
+                  ><ion-label class="ion-text-center"
+                    >Calculate your TDEE</ion-label
+                  ></ion-item
+                >
+                <ion-form>
+                  <ion-item
+                    ><ion-label class="ion-text-start left2vw floatUp"
+                      >Gender</ion-label
+                    >Male<ion-toggle
+                      id="tdeeGender"
+                      checked=""
+                      justify="end"
+                      aria-label="Enable Notifications"
+                    ></ion-toggle
+                    >Female</ion-item
+                  >
+                  <ion-item
+                    ><ion-label class="ion-text-start"></ion-label
+                    ><ion-input
+                      label="Age"
+                      id="tdeeAge"
+                      class="ion-text-end"
+                      maxlength="3"
+                      required
+                    ></ion-input
+                  ></ion-item>
+                  <ion-item
+                    ><ion-label class="ion-text-start"></ion-label
+                    ><ion-input
+                      label="Height"
+                      id="tdeeHeight"
+                      class="ion-text-end"
+                      required
+                    ></ion-input
+                    >cm</ion-item
+                  >
+                  <ion-item
+                    ><ion-label class="ion-text-start"></ion-label
+                    ><ion-input
+                      label="Weight"
+                      id="tdeeWeight"
+                      class="ion-text-end"
+                      required
+                    ></ion-input
+                    >kg</ion-item
+                  >
+                  <ion-item
+                    ><ion-label class="ion-text-start left2vw"
+                      >Activity</ion-label
+                    ><ion-range
+                      id="tdeeActivity"
+                      aria-label="Custom range"
+                      min="0"
+                      max="4"
+                      pin="true"
+                      ticks="true"
+                      snaps="true"
+                    ></ion-range
+                  ></ion-item>
+                  <ion-item
+                    ><ion-label></ion-label
+                    ><ion-button id="calculateTDEE"
+                      >submit</ion-button
+                    ></ion-item
+                  ></ion-form
+                >
+                <ion-item id="tdeeResultItem" class="hidden"
+                  ><ion-label class="ion-text-start"
+                    >Your daily TDEE is:</ion-label
+                  ><ion-label class="ion-text-end" id="tdeeResult"></ion-label
+                  >kcal</ion-item
+                >
+              </ion-list>
+            </ion-content>
+          </div>
+        </ion-tab>
+
+        <ion-tab tab="diet">
+          <ion-nav id="diet-nav"></ion-nav>
+          <div id="diet-page">
+            <ion-header>
+              <ion-toolbar color="light">
+                <ion-grid id="toolbarGrid">
+                  <ion-row class="ion-justify-content-between">
+                    <ion-img
+                      id="McFitnessLogo"
+                      size="10"
+                      src="/app/img/McFitness.png"
+                    ></ion-img>
+                    <ion-img
+                      id="avatarCircle"
+                      size="3"
+                      src="/app/img/male.jpg"
+                    ></ion-img>
+                  </ion-row>
+                </ion-grid>
+              </ion-toolbar>
+            </ion-header>
+            <ion-content>
+              <div>
+                <canvas id="dietMyChart"></canvas>
+                <ion-item class="ion-text-center floatUp"
+                  ><ion-label id="todayConsume"
+                    >Nutrition Today</ion-label
+                  ></ion-item
+                >
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Energy</ion-col>
+                  <ion-col class="ion-text-end" id="todayEnergy"></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Protein</ion-col>
+                  <ion-col class="ion-text-end" id="todayProtein"></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Total Fat</ion-col>
+                  <ion-col class="ion-text-end" id="todayTotal_fat"></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Saturated Fat</ion-col>
+                  <ion-col
+                    class="ion-text-end"
+                    id="todaySaturated_fat"
+                  ></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Trans Fat</ion-col>
+                  <ion-col class="ion-text-end" id="todayTrans_fat"></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Carbohydrates</ion-col>
+                  <ion-col
+                    class="ion-text-end"
+                    id="todayCarbohydrates"
+                  ></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Sugar</ion-col>
+                  <ion-col class="ion-text-end" id="todaySugar"></ion-col>
+                </ion-row>
+                <ion-row class="todayNutritionTable">
+                  <ion-col class="ion-text-start">Sodium</ion-col>
+                  <ion-col class="ion-text-end" id="todaySodium"></ion-col>
+                </ion-row>
+              </div>
+            </ion-content>
+          </div>
+        </ion-tab>
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button tab="home">
+            <ion-icon name="home-outline"></ion-icon>
+            Home
+          </ion-tab-button>
+          <ion-tab-button tab="scan">
+            <ion-icon name="scan"></ion-icon>
+            Scan food
+          </ion-tab-button>
+          <ion-tab-button tab="health">
+            <ion-icon name="body-outline"></ion-icon>
+            Health
+          </ion-tab-button>
+          <ion-tab-button tab="diet">
+            <ion-icon name="fast-food-outline"></ion-icon>
+            Diet record
+          </ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
+    </ion-app>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/app/localToday.js"></script>
+    <script src="/app/utcToday.js"></script>
+    <script src="/app/home.js"></script>
+    <script src="/app/weightRecord.js"></script>
+    <script src="/app/tdee.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script src="/app/chart.js"></script>
+  </body>
+</html>
