@@ -71,7 +71,7 @@ usersRoute.post(
 
 async function requestToPython(in_filename: string) {
   let out_filename = in_filename.replace(".", "-out.");
-  let res = await fetch("http://127.0.0.1:8000/predict", {
+  let res = await fetch("https://python.kayton.online/predict", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
