@@ -7,6 +7,7 @@ import { HttpError } from "../error";
 import { hasLogin } from "../guards";
 import { getSessionUser } from "../guards";
 import { error } from "console";
+import fetch from "cross-fetch";
 
 export const usersRoute = express.Router();
 
