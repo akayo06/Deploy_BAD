@@ -18,9 +18,9 @@ usersRoute.post(
     const form = newForm();
     form.parse(req, async (err: any, fields: any, files: any) => {
       try {
-        if (err) {
-          throw new HttpError(500, err);
-        }
+        // if (err) {
+        //   throw new HttpError(500, err);
+        // }
 
         let { mealDate, mealTime } = fields;
         console.log(fields);
