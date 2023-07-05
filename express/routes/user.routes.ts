@@ -8,6 +8,7 @@ import { hasLogin } from "../guards";
 import { getSessionUser } from "../guards";
 import { error } from "console";
 import fetch from "cross-fetch";
+import env from "../env";
 
 export const usersRoute = express.Router();
 
@@ -72,7 +73,7 @@ usersRoute.post(
 
 async function requestToPython(in_filename: string) {
   let out_filename = in_filename.replace(".", "-out.");
-  let res = await fetch("https://python.kayton.online/predict", {
+  let res = await fetch(`${env.DOMAIN}/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
